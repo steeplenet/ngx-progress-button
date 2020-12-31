@@ -17,7 +17,15 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "ngx-progress-button": [
+        "dist/ngx-progress-button"
+      ],
+      "ngx-progress-button/*": [
+        "dist/ngx-progress-button/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
