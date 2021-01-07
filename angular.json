@@ -15,7 +15,12 @@
             "tsConfig": "projects/ngx-progress-button/tsconfig.lib.json",
             "project": "projects/ngx-progress-button/ng-package.json"
           }
-        },
+        ,          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-progress-button/tsconfig.lib.prod.json"
+            }
+          }
+},
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
