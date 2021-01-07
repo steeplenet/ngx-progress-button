@@ -1,24 +1,62 @@
-# NgxProgressButton
+## NgxProgressButton
+
+#### An Angular Directive that adds a MatSpinner or a MatProgressBar to a MatButton. 
+
 
 This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.2.13.
 
-## Code scaffolding
 
-Run `ng generate component component-name --project ngx-progress-button` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project ngx-progress-button`.
-> Note: Don't forget to add `--project ngx-progress-button` or else it will be added to the default project in your `angular.json` file. 
+## Installation
 
-## Build
+`npm install ngx-progress-button`
 
-Run `ng build ngx-progress-button` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Usage
 
-## Publishing
+.html:
+```html
+    <button mat-raised-button
+        [buttonSpinner]="isLoggingIn"
+        color="primary" 
+        [disabled]="isLoggingIn"
+        (click)="handleLogin()"
+    >
+        Login
+    </button>
 
-After building your library with `ng build ngx-progress-button`, go to the dist folder `cd dist/ngx-progress-button` and run `npm publish`.
+    <button mat-raised-button
+        [buttonSpinner]="isLoadingData"
+        color="primary" 
+        [disabled]="isLoadingData"
+        (click)="handleLoadData()"
+    >
+       Load 
+    </button>
 
-## Running unit tests
+```
 
-Run `ng test ngx-progress-button` to execute the unit tests via [Karma](https://karma-runner.github.io).
+.ts:
+```ts
+    handleLogin() {
+        this.isLoggingIn = true;
+        this.authenticationService.login(username.value, password.value).pipe(take(1)).subscribe({
+            next: data => {
+                ...
+                this.isLoggingIn = false;
+            }
+        }};
+    }
 
-## Further help
+    handleLoadData() {
+        this.isLoadingData = true;
+        this.userService.loadData(username.value).pipe(take(1)).subscribe({
+            next: data => {
+                ...
+                this.isLoadingData = false;
+            }
+        }};
+    }
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+```
+
+## License
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/steeplenet/ngx-progress-button/LICENSE.md) file for details.
