@@ -1,50 +1,54 @@
-import { ElementRef, ViewContainerRef, Renderer2, ComponentFactory } from '@angular/core';
-import { MatSpinner, MatProgressBar, MatButton } from '@angular/material';
+import { ElementRef, ViewContainerRef, Renderer2, ComponentRef, OnDestroy } from '@angular/core';
+import { MatButton } from '@angular/material/button';
+import { ProgressIndicatorComponent } from './progress-indicator.component';
+import { ComponentFactoryResolver } from '@angular/core';
 
-type ProgressComponent = MatSpinner | MatProgressBar;
+export abstract class ProgressIndicatorDirective implements OnDestroy {
+    protected componentRef: ComponentRef<ProgressIndicatorComponent>;
+    protected manageButton = true;
 
-export abstract class ProgressIndicatorDirective {
-    private progressIndicatorElement: any;
-
-    constructor(
-        private hostElementRef: ElementRef,
-        private componentFactory: ComponentFactory<ProgressComponent>,
-        private viewContainerRef: ViewContainerRef,
-        private renderer: Renderer2,
-        private hostButton: MatButton,
-        private progressElementCssClass: string
-        ) {
-        this.loadComponent();
+    constructor(private hostElementRef: ElementRef, private renderer: Renderer2, private matButton: MatButton) {
     }
 
-    private loadComponent() {
-        this.viewContainerRef.clear();
-
-        const progressIndicator = this.viewContainerRef.createComponent(this.componentFactory, 2).instance;
-
-        this.setOptions(progressIndicator);
-
-        this.progressIndicatorElement = progressIndicator._elementRef.nativeElement;
-        this.renderer.addClass(this.progressIndicatorElement, this.progressElementCssClass);
-        this.renderer.appendChild(this.hostElementRef.nativeElement, this.progressIndicatorElement);
-        this.renderer.addClass(this.hostButton._elementRef.nativeElement, 'progress-indicator');
+    protected get progressComponent(): ProgressIndicatorComponent {
+        return this.componentRef.instance;
     }
 
-    protected abstract setOptions(progressIndicator: ProgressComponent);
+    ngOnDestroy() {
+        this.renderer.removeChild(
+            this.hostElementRef.nativeElement,
+            this.progressComponent.elementRef.nativeElement);
+        this.componentRef.destroy();
+    }
 
     protected toggle(show: boolean) {
         show ? this.show() : this.hide();
     }
 
+    protected loadComponent(
+        componentFactoryResolver: ComponentFactoryResolver,
+        viewContainerRef: ViewContainerRef,
+    ): ComponentRef<ProgressIndicatorComponent> {
+        viewContainerRef.clear();
+        const componentFactory = componentFactoryResolver.resolveComponentFactory(ProgressIndicatorComponent);
+        this.componentRef = viewContainerRef.createComponent(componentFactory);
+
+        return this.componentRef;
+    }
+
     private show() {
-        this.hostButton.disabled = true;
-        this.renderer.addClass(this.hostButton._elementRef.nativeElement, 'active');
-        this.renderer.addClass(this.progressIndicatorElement, 'active');
+        this.enableButton(false);
+        this.renderer.appendChild(this.hostElementRef.nativeElement, this.progressComponent.elementRef.nativeElement);
     }
 
     private hide() {
-        this.hostButton.disabled = false;
-        this.renderer.removeClass(this.progressIndicatorElement, 'active');
-        this.renderer.removeClass(this.hostButton._elementRef.nativeElement, 'active');
+        this.enableButton(true);
+        this.renderer.removeChild(this.hostElementRef.nativeElement, this.progressComponent.elementRef.nativeElement);
+    }
+
+    private enableButton(enable: boolean) {
+        if (this.manageButton && this.matButton) {
+            this.matButton.disabled = !enable;
+        }
     }
 }

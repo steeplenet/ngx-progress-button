@@ -1,27 +1,86 @@
-# NgxProgressButton
+## NgxProgressButton - Add a spinner or progressbar to your buttons
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.18.
+#### An Angular Directive that adds a MatProgressSpinner or a MatProgressBar to a MatButton.
 
-## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Installation
 
-## Build
+`npm install ngx-progress-button`
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+## Usage
 
-## Running unit tests
+.html:
+```html
+    <button mat-raised-button
+        [buttonSpinner]="isLoggingIn"
+        color="primary"
+        [disabled]="isLoggingIn"
+        (click)="login()"
+    >
+        Login
+    </button>
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+    <button mat-raised-button
+        [buttonProgressBar]="isLoadingData"
+        color="primary"
+        [disabled]="isLoadingData"
+        (click)="loadData()"
+    >
+       Load
+    </button>
 
-## Running end-to-end tests
+```
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+.ts:
+```ts
+    login() {
+        this.isLoggingIn = true;
+        this.authenticationService.login(username.value, password.value).pipe(take(1)).subscribe({
+            next: data => {
+                ...
+                this.isLoggingIn = false;
+            }
+        }};
+    }
 
-## Further help
+    loadData() {
+        this.isLoadingData = true;
+        this.userService.loadData(username.value).pipe(take(1)).subscribe({
+            next: data => {
+                ...
+                this.isLoadingData = false;
+            }
+        }};
+    }
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+```
+## Options
+
+### [buttonSpinner] Directive:
+| Directive Property     |  MatProgressSpinner Property | Description                              | Default Value
+| -------------------------- | ------------------ | -------------------------------------------------- | -------------
+| `buttonSpinnerColor`       | `color`            | *Theme color palette.                              | `primary`
+| `buttonSpinnerMode`        | `mode`             | *Mode of the progress circle. Values: `determinate`, `indeterminate` | `indeterminate`
+| `buttonSpinnerValue`       | `value`            | *Value of the progress circle.                     | `0`
+| `buttonSpinnerDiameter`    | `diameter`         | *The diameter of the progress spinner.             | `19`
+| `buttonSpinnerStrokeWidth` | `strokeWidth`      | *Stroke width of the progress spinner.             | `2`
+| `disableWhenLoading`       | n/a                | Disable the host button when [buttonSpinner]=true. | `true`
+
+*See [MatProgressSpinner](https://material.angular.io/components/progress-spinner/api) for details.
+
+### [buttonProgressBar] Directive:
+| Directive Property             | MatProgressBar Property | Description                              | Default Value
+| ------------------------------ | ------------------ | ------------------------------------------------------ | -------------
+| `buttonProgressBarColor`       | `color`            | *Theme color palette.                                  | `primary`
+| `buttonProgressBarMode`        | `mode`             | *Mode of the progress bar. Values: `determinate`, `indeterminate`, `buffer`, `query` | `indeterminate`
+| `buttonProgressBarValue`       | `value`            | *Value of the progress bar.                            | `0`
+| `buttonProgressBarBufferValue` | `bufferValue`      | *Buffer value of the progress bar.                     | `0`
+| `disableWhenLoading`           | n/a                | Disable the host button when [buttonProgressBar]=true. | `true`
+
+*See [MatProgressSpinner](https://material.angular.io/components/progress-spinner/api) for details.
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/steeplenet/ngx-progress-button/LICENSE) file for details.

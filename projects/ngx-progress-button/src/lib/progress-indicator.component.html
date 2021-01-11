@@ -1,0 +1,21 @@
+<ng-container [ngSwitch]="indicatorType">
+    <ng-container *ngSwitchCase="'progressBar'">
+        <mat-progress-bar
+            [mode]="mode"
+            [color]="color"
+            [value]="value"
+            [bufferValue]="bufferValue"
+        >
+        </mat-progress-bar>
+    </ng-container>
+    <ng-container *ngSwitchCase="'spinner'">
+        <mat-progress-spinner
+            [mode]="mode"
+            [color]="color"
+            [value]="value"
+            [diameter]="diameter"
+            [strokeWidth]="strokeWidth"
+        >
+        </mat-progress-spinner>
+    </ng-container>
+</ng-container>
