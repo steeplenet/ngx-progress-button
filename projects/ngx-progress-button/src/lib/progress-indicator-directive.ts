@@ -36,6 +36,10 @@ export abstract class ProgressIndicatorDirective implements OnDestroy {
         return this.componentRef;
     }
 
+    protected setHostElementStyle() {
+        this.renderer.setStyle(this.hostElementRef.nativeElement, 'position', 'relative');
+    }
+
     private show() {
         this.enableButton(false);
         this.renderer.appendChild(this.hostElementRef.nativeElement, this.progressComponent.elementRef.nativeElement);

@@ -1,6 +1,6 @@
 ## NgxProgressButton - Add a spinner or progressbar to your buttons
 
-#### An Angular Directive that adds a MatProgressSpinner or a MatProgressBar to a MatButton.
+#### An Angular Directive that adds a MatProgressSpinner or a MatProgressBar to any button.
 
 
 This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1
@@ -66,7 +66,7 @@ This library was generated with [Angular CLI](https://github.com/angular/angular
 | `buttonSpinnerMode`        | `mode`             | *Mode of the progress circle. Values: `determinate`, `indeterminate` | `indeterminate`
 | `buttonSpinnerValue`       | `value`            | *Value of the progress circle.                     | `0`
 | `buttonSpinnerDiameter`    | `diameter`         | *The diameter of the progress spinner.             | `19`
-| `buttonSpinnerStrokeWidth` | `strokeWidth`      | *Stroke width of the progress spinner.             | `2`
+| `buttonSpinnerStrokeWidth` | `strokeWidth`      | *Stroke width of the progress spinner.             | Not specified
 | `disableWhenLoading`       | n/a                | Disable the host button when [buttonSpinner]=true. | `true`
 
 *See [MatProgressSpinner](https://material.angular.io/components/progress-spinner/api) for details.

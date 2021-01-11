@@ -19,11 +19,12 @@ export class ButtonSpinnerDirective extends ProgressIndicatorDirective implement
         @Optional() matButton: MatButton
     ) {
         super(hostElementRef, renderer, matButton);
+
         this.loadComponent(componentFactoryResolver, viewContainerRef);
         this.progressComponent.indicatorType = ProgressIndicatorType.Spinner;
         this.progressComponent.diameter = 19;
         this.progressComponent.mode = "indeterminate";
-        this.progressComponent.strokeWidth = 2;
+        this.setHostElementStyle();
     }
 
     @Input() set buttonSpinner(show: boolean) {
