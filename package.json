@@ -9,7 +9,10 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
-  "private": true,
+  "private": false,
+  "repository": {
+    "url": "https://github.com/steeplenet/ngx-progress-button"
+  },
   "dependencies": {
     "@angular/animations": "~9.1.13",
     "@angular/cdk": "^9.2.4",
