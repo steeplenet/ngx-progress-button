@@ -1,4 +1,13 @@
-import { Directive, ElementRef, Input, ComponentFactoryResolver, ViewContainerRef, Renderer2, OnDestroy, Optional } from '@angular/core';
+import {
+    Directive,
+    ElementRef,
+    Input,
+    ComponentFactoryResolver,
+    ViewContainerRef,
+    Renderer2,
+    OnDestroy,
+    Optional
+} from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { ThemePalette } from '@angular/material/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
@@ -10,6 +19,7 @@ import { ProgressIndicatorType } from './progress-indicator.component';
     selector: '[buttonSpinner]'
 })
 export class ButtonSpinnerDirective extends ProgressIndicatorDirective implements OnDestroy {
+    private _show: boolean;
 
     constructor(
         hostElementRef: ElementRef,
@@ -28,30 +38,33 @@ export class ButtonSpinnerDirective extends ProgressIndicatorDirective implement
     }
 
     @Input() set buttonSpinner(show: boolean) {
+        this._show = show;
         this.toggle(show);
     }
 
-    @Input() set disableWhenLoading(value: boolean) {
-        this.manageButton = value;
+    @Input('buttonSpinnerDisableHost') set disableHost(value: boolean) {
+        this.setButtonManagementState(value, this._show);
     }
 
-    @Input() set buttonSpinnerColor(value: ThemePalette) {
+    @Input('buttonSpinnerColor') set color(value: ThemePalette) {
         this.progressComponent.color = value;
     }
 
-    @Input() set buttonSpinnerMode(value: ProgressSpinnerMode) {
+    @Input('buttonSpinnerMode') set mode(value: ProgressSpinnerMode) {
         this.progressComponent.mode = value;
     }
 
-    @Input() set buttonSpinnerValue(value: number) {
+    @Input('buttonSpinnerValue') set value(value: number) {
         this.progressComponent.value = value;
     }
 
-    @Input() set buttonSpinnerDiameter(value: number) {
-        this.progressComponent.diameter = value;
+    @Input('buttonSpinnerDiameter') set diameter(value: number) {
+        if (value) {
+            this.progressComponent.diameter = value;
+        }
     }
 
-    @Input() set buttonSpinnerStrokeWidth(value: number) {
+    @Input('buttonSpinnerStrokeWidth') set strokeWidth(value: number) {
         this.progressComponent.strokeWidth = value;
     }
 }

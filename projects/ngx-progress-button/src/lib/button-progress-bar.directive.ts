@@ -1,4 +1,13 @@
-import { Directive, Input, ElementRef, ComponentFactoryResolver, ViewContainerRef, Renderer2, OnDestroy, Optional } from '@angular/core';
+import {
+    Directive,
+    Input,
+    ElementRef,
+    ComponentFactoryResolver,
+    ViewContainerRef,
+    Renderer2,
+    OnDestroy,
+    Optional
+} from '@angular/core';
 import { ProgressIndicatorDirective } from './progress-indicator-directive';
 import { MatButton } from '@angular/material/button';
 import { ProgressBarMode } from '@angular/material/progress-bar';
@@ -10,6 +19,7 @@ import { ProgressIndicatorType } from './progress-indicator.component';
   selector: '[buttonProgressBar]'
 })
 export class ButtonProgressBarDirective extends ProgressIndicatorDirective implements OnDestroy {
+    private _show: boolean;
 
     constructor(
         hostElementRef: ElementRef,
@@ -27,26 +37,27 @@ export class ButtonProgressBarDirective extends ProgressIndicatorDirective imple
     }
 
     @Input() set buttonProgressBar(show: boolean) {
+        this._show = show;
         this.toggle(show);
     }
 
-    @Input() set disableWhenLoading(value: boolean) {
-        this.manageButton = value;
+    @Input('buttonProgressBarDisableHost') set disableHost(value: boolean) {
+        this.setButtonManagementState(value, this._show);
     }
 
-    @Input() set buttonProgressBarColor(value: ThemePalette) {
+    @Input('buttonProgressBarColor') set color(value: ThemePalette) {
         this.progressComponent.color = value;
     }
 
-    @Input() set buttonProgressBarMode(value: ProgressBarMode) {
+    @Input('buttonProgressBarMode') set mode(value: ProgressBarMode) {
         this.progressComponent.mode = value;
     }
 
-    @Input() set buttonProgressBarValue(value: number) {
+    @Input('buttonProgressBarValue') set value(value: number) {
         this.progressComponent.value = value;
     }
 
-    @Input() set buttonProgressBarBufferValue(value: number) {
+    @Input('buttonProgressBarBufferValue') set bufferValue(value: number) {
         this.progressComponent.bufferValue = value;
     }
 }
