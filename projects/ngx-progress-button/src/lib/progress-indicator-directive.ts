@@ -2,10 +2,15 @@ import { ElementRef, ViewContainerRef, Renderer2, ComponentRef, OnDestroy } from
 import { MatButton } from '@angular/material/button';
 import { ProgressIndicatorComponent } from './progress-indicator.component';
 import { ComponentFactoryResolver } from '@angular/core';
+import { asapScheduler, of, Subject } from 'rxjs';
+import { delay, takeUntil } from 'rxjs/operators'
 
 export abstract class ProgressIndicatorDirective implements OnDestroy {
-    private manageButton = null;
+    protected disableHostButton = true;
     protected componentRef: ComponentRef<ProgressIndicatorComponent>;
+    protected showSubject = new Subject<boolean>();
+    protected cancelSubject = new Subject<any>();
+    protected indicatorDelay = 1000;
 
     constructor(private hostElementRef: ElementRef, private renderer: Renderer2, private matButton: MatButton) {
     }
@@ -15,14 +20,29 @@ export abstract class ProgressIndicatorDirective implements OnDestroy {
     }
 
     ngOnDestroy() {
-        this.renderer.removeChild(
-            this.hostElementRef.nativeElement,
-            this.progressComponent.elementRef.nativeElement);
+        this.cancelSubject.next();
+        this.cancelSubject.complete();
+        this.showSubject.complete();
+        this.renderer.removeChild(this.hostElementRef.nativeElement, this.progressComponent.elementRef.nativeElement);
         this.componentRef.destroy();
     }
 
     protected toggle(show: boolean) {
-        show ? this.show() : this.hide();
+        this.cancelSubject.next();
+
+        if (show) {
+            // We want this to be called after changes to input variables are resolved - specifically manageButton
+            asapScheduler.schedule(_ => {
+                this.enableButton(false);
+                of(show).pipe(delay(this.indicatorDelay), takeUntil(this.cancelSubject)).subscribe({
+                    next: _ => this.show()
+                });
+            });
+        } else {
+            this.cancelSubject.next();
+            this.enableButton(true);
+            this.hide();
+        }
     }
 
     protected loadComponent(
@@ -41,30 +61,20 @@ export abstract class ProgressIndicatorDirective implements OnDestroy {
     }
 
     protected setButtonManagementState(disableHost: boolean, show: boolean) {
-        // If this property is being set for the first time and to false
-        // AND being set to false
-        // AND we initially disabled the host button then revert it.
-        // revert the host button disable state.
-        if (this.manageButton == null && !disableHost && show) {
-            this.enableButton(show);
-        }
-
-        this.manageButton = disableHost;
+        this.disableHostButton = disableHost;
     }
 
     protected enableButton(enable: boolean) {
-        if ((this.manageButton || this.manageButton == null) && this.matButton) {
+        if ((this.disableHostButton || this.disableHostButton == null) && this.matButton) {
             this.matButton.disabled = !enable;
         }
     }
 
     private show() {
-        this.enableButton(false);
         this.renderer.appendChild(this.hostElementRef.nativeElement, this.progressComponent.elementRef.nativeElement);
     }
 
     private hide() {
-        this.enableButton(true);
         this.renderer.removeChild(this.hostElementRef.nativeElement, this.progressComponent.elementRef.nativeElement);
     }
 }

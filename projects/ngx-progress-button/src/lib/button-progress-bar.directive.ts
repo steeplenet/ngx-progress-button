@@ -19,7 +19,6 @@ import { ProgressIndicatorType } from './progress-indicator.component';
   selector: '[buttonProgressBar]'
 })
 export class ButtonProgressBarDirective extends ProgressIndicatorDirective implements OnDestroy {
-    private _show: boolean;
 
     constructor(
         hostElementRef: ElementRef,
@@ -37,12 +36,11 @@ export class ButtonProgressBarDirective extends ProgressIndicatorDirective imple
     }
 
     @Input() set buttonProgressBar(show: boolean) {
-        this._show = show;
         this.toggle(show);
     }
 
     @Input('buttonProgressBarDisableHost') set disableHost(value: boolean) {
-        this.setButtonManagementState(value, this._show);
+        this.disableHostButton = value;
     }
 
     @Input('buttonProgressBarColor') set color(value: ThemePalette) {
@@ -59,5 +57,11 @@ export class ButtonProgressBarDirective extends ProgressIndicatorDirective imple
 
     @Input('buttonProgressBarBufferValue') set bufferValue(value: number) {
         this.progressComponent.bufferValue = value;
+    }
+
+    @Input('buttonProgressBarDelay') set delay(value: number) {
+        if (value != null) {
+            this.indicatorDelay = value;
+        }
     }
 }

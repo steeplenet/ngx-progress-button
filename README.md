@@ -2,8 +2,9 @@
 
 
 #### * This Angular Directive adds a MatProgressSpinner or a MatProgressBar to any button.
-#### * MatButtons can be optionally disabled when the directive is active during loading events.
-#### * Can work on any element but with the caveat that the css display property will be set to 'relative'.
+#### * Works on any element but with the caveat that the css display property will be set to 'relative'. (To be resolved in a near-term version)
+#### * MatButtons are optionally disabled by default when a loading event occurs. (This feature will support arbitrary host elements soon)
+#### * Optional initial timeout before a progress indicator is displayed. Host button is disabled immediately for debouncing.
 
 
 
@@ -70,6 +71,7 @@ This library was generated with [Angular CLI](https://github.com/angular/angular
 | `buttonSpinnerDiameter`    | `diameter`         | *The diameter of the progress spinner.             | `19`
 | `buttonSpinnerStrokeWidth` | `strokeWidth`      | *Stroke width of the progress spinner.             | Determined by Angular framework.
 | `buttonSpinnerDisableHost` | n/a                | Disable the host button when [buttonSpinner]=true. NOTE: Applicable to MatButtons only. | `true`
+| `buttonSpinnerDelay`       | n/a                | Delay display of the progress spinner. NOTE: Disablement is immediate. | `1000` (millisecs)
 
 *See [MatProgressSpinner](https://material.angular.io/components/progress-spinner/api) for details.
 
@@ -81,6 +83,7 @@ This library was generated with [Angular CLI](https://github.com/angular/angular
 | `buttonProgressBarValue`       | `value`            | *Value of the progress bar.                     | `0`
 | `buttonProgressBarBufferValue` | `bufferValue`      | *Buffer value of the progress bar.              | `0`
 | `buttonProgressBarDisableHost` | n/a                | Disable the host button when [buttonProgressBar]=true. NOTE: Applicable to MatButtons only. | `true`
+| `buttonProgressBarDelay`       | n/a                | Delay display of the progress bar. NOTE: Disablement is immediate. | `1000` (millisecs)
 
 *See [MatProgressBar](https://material.angular.io/components/progress-bar/api) for details.
 

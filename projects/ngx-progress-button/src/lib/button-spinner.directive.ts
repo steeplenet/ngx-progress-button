@@ -19,7 +19,6 @@ import { ProgressIndicatorType } from './progress-indicator.component';
     selector: '[buttonSpinner]'
 })
 export class ButtonSpinnerDirective extends ProgressIndicatorDirective implements OnDestroy {
-    private _show: boolean;
 
     constructor(
         hostElementRef: ElementRef,
@@ -38,12 +37,11 @@ export class ButtonSpinnerDirective extends ProgressIndicatorDirective implement
     }
 
     @Input() set buttonSpinner(show: boolean) {
-        this._show = show;
         this.toggle(show);
     }
 
     @Input('buttonSpinnerDisableHost') set disableHost(value: boolean) {
-        this.setButtonManagementState(value, this._show);
+        this.disableHostButton = value;
     }
 
     @Input('buttonSpinnerColor') set color(value: ThemePalette) {
@@ -66,5 +64,11 @@ export class ButtonSpinnerDirective extends ProgressIndicatorDirective implement
 
     @Input('buttonSpinnerStrokeWidth') set strokeWidth(value: number) {
         this.progressComponent.strokeWidth = value;
+    }
+
+    @Input('buttonSpinnerDelay') set delay(value: number) {
+        if (value != null) {
+            this.indicatorDelay = value;
+        }
     }
 }
