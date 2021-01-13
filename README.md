@@ -88,4 +88,4 @@ This library was generated with [Angular CLI](https://github.com/angular/angular
 *See [MatProgressBar](https://material.angular.io/components/progress-bar/api) for details.
 
 ## License
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/steeplenet/ngx-progress-button/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/steeplenet/ngx-progress-button/blob/main/LICENSE) file for details.
