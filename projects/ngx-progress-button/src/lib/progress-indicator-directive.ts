@@ -3,7 +3,7 @@ import { MatButton } from '@angular/material/button';
 import { ProgressIndicatorComponent } from './progress-indicator.component';
 import { ComponentFactoryResolver } from '@angular/core';
 import { interval, of, ReplaySubject, Subject } from 'rxjs';
-import { delayWhen, takeUntil, tap } from 'rxjs/operators'
+import { delay, delayWhen, switchMap, takeUntil, tap } from 'rxjs/operators'
 
 export abstract class ProgressIndicatorDirective implements OnInit, OnDestroy {
     private cancelSubject = new Subject<any>();
@@ -26,10 +26,12 @@ export abstract class ProgressIndicatorDirective implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.setHostElementStyle();
+
         this.showSubject
             .pipe(
                 tap(show => this.enableButton(!show)),
-                delayWhen(show => show ? interval(this.indicatorDelay) : of(0)), takeUntil(this.cancelSubject)
+                switchMap(show => show ? of(show).pipe(delay(this.indicatorDelay)) : of(show)),
+                takeUntil(this.cancelSubject)
             )
             .subscribe({
                 next: show => show ? this.createProgressIndicator() : this.removeProgressIndicator()
