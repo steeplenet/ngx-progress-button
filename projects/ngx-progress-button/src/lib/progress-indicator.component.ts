@@ -15,12 +15,12 @@ export enum ProgressIndicatorType {
 })
 export class ProgressIndicatorComponent {
     @Input() indicatorType: ProgressIndicatorType;
-    @Input() value;
+    @Input() value: number;
     @Input() color: ThemePalette;
     @Input() strokeWidth: number;
     @Input() mode: ProgressBarMode | ProgressSpinnerMode;
     @Input() bufferValue;
-    @Input() diameter;
+    @Input() diameter: number;
 
     constructor(public elementRef: ElementRef) {
     }

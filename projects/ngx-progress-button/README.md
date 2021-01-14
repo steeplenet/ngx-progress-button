@@ -17,7 +17,7 @@ This library was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Usage
 
-.html:
+Your .html file:
 ```html
     <button mat-raised-button
         [buttonSpinner]="isLoggingIn"
@@ -37,7 +37,7 @@ This library was generated with [Angular CLI](https://github.com/angular/angular
 
 ```
 
-.ts:
+Your .ts file:
 ```ts
     login() {
         this.isLoggingIn = true;
@@ -60,14 +60,30 @@ This library was generated with [Angular CLI](https://github.com/angular/angular
     }
 
 ```
+
+Your module file where a ngx-progress-button directive is used:
+```
+    import { NgxProgressButtonModule } from 'ngx-progress-button';
+
+    ...
+
+    imports: [
+        ...
+        NgxProgressButtonModule,
+        ...
+    ],
+
+```
+
+
 ## Options
 
 ### [buttonSpinner] Directive:
 | Directive Property     |  MatProgressSpinner Property | Description                                  | Default Value
 | -------------------------- | ------------------ | -------------------------------------------------- | -------------
 | `buttonSpinnerColor`       | `color`            | *Theme color palette.                              | `primary`
-| `buttonSpinnerMode`        | `mode`             | *Mode of the progress circle. Values: `determinate`, `indeterminate` | `indeterminate`
-| `buttonSpinnerValue`       | `value`            | *Value of the progress circle.                     | `0`
+| `buttonSpinnerMode`        | `mode`             | *Mode of the progress spinner. Values: `determinate`, `indeterminate` | `indeterminate`
+| `buttonSpinnerValue`       | `value`            | *Value of the progress spinner.                    | `0`
 | `buttonSpinnerDiameter`    | `diameter`         | *The diameter of the progress spinner.             | `19`
 | `buttonSpinnerStrokeWidth` | `strokeWidth`      | *Stroke width of the progress spinner.             | Determined by Angular framework.
 | `buttonSpinnerDisableHost` | n/a                | Disable the host button when [buttonSpinner]=true. NOTE: Applicable to MatButtons only. | `true`
