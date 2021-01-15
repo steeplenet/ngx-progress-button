@@ -88,6 +88,10 @@ export class ButtonProgressBarDirective extends ProgressIndicatorDirective imple
         }
     }
 
+    @Input('buttonProgressBarHostDisabled') set hostDisabled(value: boolean) {
+        this.isHostDisabledByApp = value;
+    }
+
     constructor(
         hostElementRef: ElementRef,
         componentFactoryResolver: ComponentFactoryResolver,

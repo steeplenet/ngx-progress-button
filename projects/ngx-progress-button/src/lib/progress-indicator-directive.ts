@@ -11,6 +11,7 @@ export abstract class ProgressIndicatorDirective implements OnInit, OnDestroy {
     protected componentRef: ComponentRef<ProgressIndicatorComponent>;
     protected showSubject = new ReplaySubject<boolean>();
     protected indicatorDelay = 1000;
+    protected isHostDisabledByApp = null;
 
     constructor(
         private hostElementRef: ElementRef,
@@ -49,7 +50,11 @@ export abstract class ProgressIndicatorDirective implements OnInit, OnDestroy {
 
     protected enableButton(enable: boolean) {
         if ((this.disableHostButton || this.disableHostButton == null) && this.matButton) {
-            this.matButton.disabled = !enable;
+            this.matButton.disabled = enable === true
+                // If we are enabling the host element: set/revert it to whatever state is specified by the app
+                // via isHostDisabledByApp - if specified.
+                ? (this.isHostDisabledByApp != null ? this.isHostDisabledByApp : !enable)
+                : !enable;
         }
     }
 

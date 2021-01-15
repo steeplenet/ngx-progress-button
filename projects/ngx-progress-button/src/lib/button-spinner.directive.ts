@@ -101,6 +101,10 @@ export class ButtonSpinnerDirective extends ProgressIndicatorDirective implement
         }
     }
 
+    @Input('buttonSpinnerHostDisabled') set hostDisabled(value: boolean) {
+        this.isHostDisabledByApp = value;
+    }
+
     constructor(
         hostElementRef: ElementRef,
         componentFactoryResolver: ComponentFactoryResolver,
