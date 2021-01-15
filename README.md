@@ -61,7 +61,7 @@ Your .ts file:
 
 ```
 
-Your module file where a ngx-progress-button directive is used:
+Your module file for a module that will use a ngx-progress-button directive:
 ```
     import { NgxProgressButtonModule } from 'ngx-progress-button';
 
